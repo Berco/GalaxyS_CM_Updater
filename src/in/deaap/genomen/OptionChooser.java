@@ -5,9 +5,12 @@ import java.io.IOException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -22,7 +25,6 @@ public class OptionChooser extends Activity implements View.OnClickListener{
 	CheckBox mCbFuguMod;
 	TextView mText;
 	Button mFlash;
-	Button mExit;
 	String nightlyPath;
 	String gappsPath;
 	String packPath;
@@ -79,9 +81,7 @@ public class OptionChooser extends Activity implements View.OnClickListener{
 		mCbFuguMod = (CheckBox) findViewById(R.id.cbFugumod);
 		mText = (TextView) findViewById(R.id.tvExtComm);
 		mFlash = (Button) findViewById(R.id.btnFlash);
-		mExit = (Button) findViewById(R.id.btnExit);
 		mFlash.setOnClickListener(this);
-		mExit.setOnClickListener(this);
 		mCbFuguMod.setOnClickListener(this);
 		mCbZattaPack.setOnClickListener(this);
 		mCbNightly.setOnClickListener(this);
@@ -104,9 +104,6 @@ public class OptionChooser extends Activity implements View.OnClickListener{
 		switch(v.getId()){
 		case R.id.btnFlash:
 			sure_dialog(R.id.btnFlash, "Flash");
-			break;
-		case R.id.btnExit:
-			sure_dialog(R.id.btnExit, "Exit");
 			break;
 		case R.id.cbFugumod:
 			writeAnotherExtendedCommand();
@@ -166,9 +163,6 @@ public class OptionChooser extends Activity implements View.OnClickListener{
 					e.printStackTrace();
 				} 
 				break;
-			case R.id.btnExit:
-				finish();
-				break;
 			case 4:
 				nightlyPath = kangPath;
 				writeAnotherExtendedCommand();
@@ -182,6 +176,34 @@ public class OptionChooser extends Activity implements View.OnClickListener{
 			}});
 		AlertDialog alert = builder.create();
 		alert.show();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(android.view.Menu menu) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu);
+		MenuInflater blowUp = getMenuInflater();
+		blowUp.inflate(R.menu.leftclick, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.leftAboutApp:
+			Intent i = new Intent("in.deaap.genomen.ABOUT");
+			startActivity(i);
+			break;
+		case R.id.leftPrefs:
+			Intent p = new Intent("in.deaap.genomen.PREFS");
+			startActivity(p);
+			break;
+		case R.id.leftExit:
+			finish();
+			break;
+		}
+		return false;
 	}
 
 }

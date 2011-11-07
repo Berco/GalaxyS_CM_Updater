@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+  
+  <item
+  android:title="About this app"
+  android:id="@+id/leftAboutApp" />
+  <item
+  android:title="Preferences"
+  android:id="@+id/leftPrefs" />
+  <item
+  android:title="Exit"
+  android:id="@+id/leftExit" />
+    
+</menu>

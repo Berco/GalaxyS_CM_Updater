@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+    <TextView android:text="This app is to easy the flasing process of Cyanogenmod for the Samsung GalaxyS. A lot of thing come from the New Boston Series, Nitrality App and the DevTuts by Wouter Vegter" 
+    android:id="@+id/textView1" 
+    android:layout_width="wrap_content" 
+    android:layout_height="wrap_content"/>
+    
+</LinearLayout>

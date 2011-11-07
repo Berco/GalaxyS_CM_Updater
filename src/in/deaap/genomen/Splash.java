@@ -9,10 +9,12 @@ import org.apache.commons.io.IOUtils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 
 public class Splash extends Activity{
 
@@ -31,6 +33,10 @@ public class Splash extends Activity{
 		new FindZips().execute();
 		setContentView(R.layout.splash);
 		ourSound = MediaPlayer.create(Splash.this, R.raw.splashsound);
+		
+		SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		boolean music = getPrefs.getBoolean("checkboxMusic", false);
+		if (music == true)
 		ourSound.start();
 	}
 	

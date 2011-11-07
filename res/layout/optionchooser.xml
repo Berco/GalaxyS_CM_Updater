@@ -77,14 +77,7 @@
 					android:text="Flash" 
 					android:layout_height="wrap_content" 
 					android:layout_width="100dip"
-					android:layout_alignParentLeft="true"  />
-				
-				<Button 
-					android:id="@+id/btnExit" 
-					android:text="Exit" 
-					android:layout_height="wrap_content" 
-					android:layout_width="100dip"
-					android:layout_alignParentRight="true" />
+					android:layout_centerInParent="true"  />
 			</RelativeLayout>
 </LinearLayout>
 
