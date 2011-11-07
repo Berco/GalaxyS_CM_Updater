@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"  
+    android:id="@+id/linearLayout1" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content">
+				
+		<RelativeLayout 
+		android:id="@+id/rlHeader"
+		android:layout_width="fill_parent" 
+		android:layout_height="30dip" 
+		android:background="@drawable/bg_header">
+		<TextView 
+			android:id="@+id/tvHeader" 
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content" 
+			android:layout_centerInParent="true"
+			style="@style/text_h1" 
+			android:text="@string/app_name"/>
+		</RelativeLayout>
+		
+		<RelativeLayout 
+		android:layout_width="match_parent" 
+		android:layout_height="wrap_content" 
+		android:id="@+id/rlCheckboxes" 
+		android:paddingLeft="20dip" 
+		android:paddingRight="20dip">
+			<CheckBox android:id="@+id/cbNightly"   android:layout_alignParentTop="true"    android:layout_alignParentLeft="true"		android:layout_height="wrap_content" android:text="flash nightly" 	android:layout_width="wrap_content" 	android:checked="true"></CheckBox>
+			<CheckBox android:id="@+id/cbGapps"     android:layout_below="@id/cbNightly"    android:layout_alignParentLeft="true"		android:layout_height="wrap_content" android:text="flash Gapps" 	android:layout_width="wrap_content" 	android:checked="true"></CheckBox>
+			<CheckBox android:id="@+id/cbZattaPack" android:layout_alignParentTop="true"    android:layout_alignParentRight="true"		android:layout_height="wrap_content" android:text="flash ZattaPack" android:layout_width="wrap_content" android:checked="true"></CheckBox>
+			<CheckBox android:id="@+id/cbFugumod"   android:layout_below="@id/cbZattaPack"  android:layout_alignParentRight="true"  	android:layout_height="wrap_content" android:text="flash FuguMod" 	android:layout_width="wrap_content" 	android:checked="true"></CheckBox>
+		</RelativeLayout>
+			
+			<RelativeLayout 
+		android:id="@+id/rlAttentionbar"
+		android:layout_width="fill_parent" 
+		android:layout_height="30dip" 
+		android:background="@drawable/bg_header">
+		<TextView 
+			android:id="@+id/tvAttentionbar" 
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content" 
+			android:layout_centerInParent="true"
+			style="@style/text_h1" 
+			android:text="@string/warning"/>
+		</RelativeLayout>
+				
+			<ScrollView 
+				android:id="@+id/scrollView1" 
+				android:layout_width="match_parent" 
+				android:layout_height="160dip"
+				android:layout_below="@+id/tvAttentionbar"
+				android:fadeScrollbars="false"  >
+				<TextView 
+				android:layout_width="match_parent" 
+				android:id="@+id/tvExtComm" 
+				android:layout_height="match_parent" 
+				android:text="Still no extendedcommand"/>
+			</ScrollView>
+			
+			<RelativeLayout 
+				android:id="@+id/rlBottombar"
+				android:layout_width="fill_parent" 
+				android:layout_height="30dip" 
+				android:background="@drawable/bg_header">
+			</RelativeLayout>
+			
+						
+			<RelativeLayout 
+				android:layout_height="wrap_content" 
+				android:layout_width="match_parent" 
+				android:id="@+id/rlButtons"
+				android:padding="10dip">
+				<Button 
+					android:id="@+id/btnFlash" 
+					android:text="Flash" 
+					android:layout_height="wrap_content" 
+					android:layout_width="100dip"
+					android:layout_alignParentLeft="true"  />
+				
+				<Button 
+					android:id="@+id/btnExit" 
+					android:text="Exit" 
+					android:layout_height="wrap_content" 
+					android:layout_width="100dip"
+					android:layout_alignParentRight="true" />
+			</RelativeLayout>
+</LinearLayout>
+
+
