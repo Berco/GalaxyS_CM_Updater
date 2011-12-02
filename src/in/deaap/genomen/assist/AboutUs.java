@@ -1,15 +1,16 @@
-package in.deaap.genomen;
+package in.deaap.genomen.assist;
 
+import in.deaap.genomen.core.R;
+import android.app.Activity;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 
-public class Prefs extends PreferenceActivity{
+public class AboutUs extends Activity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.prefs);
+		setContentView(R.layout.about);
 	}
 
 }

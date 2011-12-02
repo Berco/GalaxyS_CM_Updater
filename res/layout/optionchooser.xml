@@ -28,8 +28,7 @@
 		android:paddingRight="20dip">
 			<CheckBox android:id="@+id/cbNightly"   android:layout_alignParentTop="true"    android:layout_alignParentLeft="true"		android:layout_height="wrap_content" android:text="flash nightly" 	android:layout_width="wrap_content" 	android:checked="true"></CheckBox>
 			<CheckBox android:id="@+id/cbGapps"     android:layout_below="@id/cbNightly"    android:layout_alignParentLeft="true"		android:layout_height="wrap_content" android:text="flash Gapps" 	android:layout_width="wrap_content" 	android:checked="true"></CheckBox>
-			<CheckBox android:id="@+id/cbZattaPack" android:layout_alignParentTop="true"    android:layout_alignParentRight="true"		android:layout_height="wrap_content" android:text="flash ZattaPack" android:layout_width="wrap_content" android:checked="true"></CheckBox>
-			<CheckBox android:id="@+id/cbFugumod"   android:layout_below="@id/cbZattaPack"  android:layout_alignParentRight="true"  	android:layout_height="wrap_content" android:text="flash FuguMod" 	android:layout_width="wrap_content" 	android:checked="true"></CheckBox>
+			<CheckBox android:id="@+id/cbZattaPack" android:layout_alignParentTop="true"    android:layout_alignParentRight="true"		android:layout_height="wrap_content" android:text="flash ZattaPack" android:layout_width="wrap_content" android:checked="false"></CheckBox>
 		</RelativeLayout>
 			
 			<RelativeLayout 

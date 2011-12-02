@@ -1,4 +1,4 @@
-package in.deaap.genomen;
+package in.deaap.genomen.assist;
 
 import android.util.Log;
 
