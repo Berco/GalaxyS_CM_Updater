@@ -1,14 +1,20 @@
 package in.deaap.genomen.core;
 
 import in.deaap.genomen.assist.ShellInterface;
+import in.deaap.genomen.filehandler.FileArrayAdapter;
+import in.deaap.genomen.filehandler.Flashable;
+import in.deaap.genomen.filehandler.SearchRequest;
 
 import java.io.IOException;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import android.view.MenuInflater;
@@ -18,7 +24,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-public class OptionChooser extends Activity implements View.OnClickListener{
+public class OptionChooser extends ListActivity implements View.OnClickListener{
     /** Called when the activity is first created. */
 	
 	CheckBox mCbNightly;
@@ -37,6 +43,17 @@ public class OptionChooser extends Activity implements View.OnClickListener{
         initialize();
         
         writeAnotherExtendedCommand();
+        
+    /*    Resources resources = getResources();
+	*	String[] searchfor = resources.getStringArray(R.array.search_for);
+	*	String[] nothing = {"nothing"};
+	*	
+	*	SearchRequest request = new SearchRequest();
+	*	
+	*	List<Flashable> fls = request.arrangeForResult(searchfor, nothing);
+	*	FileArrayAdapter adapter = new FileArrayAdapter(OptionChooser.this,R.layout.file_view, fls);
+	*	this.setListAdapter(adapter);
+   	*/
    }
 
 	private void writeExtendedCommand() {

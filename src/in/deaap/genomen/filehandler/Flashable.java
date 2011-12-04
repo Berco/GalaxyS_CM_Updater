@@ -1,8 +1,10 @@
 package in.deaap.genomen.filehandler;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
-public class Flashable implements Comparable<Flashable> {
+public class Flashable implements Comparable<Flashable>, Parcelable {
 	private String name;
 	private long version;
 	private String path;
@@ -35,5 +37,17 @@ public class Flashable implements Comparable<Flashable> {
 			}
 			else 
 				throw new IllegalArgumentException();
+	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel arg0, int arg1) {
+		// TODO Auto-generated method stub
+		
 	}
 }

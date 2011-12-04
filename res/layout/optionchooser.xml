@@ -44,6 +44,12 @@
 			style="@style/text_h1" 
 			android:text="@string/warning"/>
 		</RelativeLayout>
+			
+			<ListView android:id="@android:id/list" 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" 
+		android:layout_weight="1"
+		android:drawSelectorOnTop="false" />
 				
 			<ScrollView 
 				android:id="@+id/scrollView1" 
