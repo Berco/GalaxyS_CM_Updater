@@ -31,7 +31,7 @@
 			<CheckBox android:id="@+id/cbZattaPack" android:layout_alignParentTop="true"    android:layout_alignParentRight="true"		android:layout_height="wrap_content" android:text="flash ZattaPack" android:layout_width="wrap_content" android:checked="false"></CheckBox>
 		</RelativeLayout>
 			
-			<RelativeLayout 
+		<RelativeLayout 
 		android:id="@+id/rlAttentionbar"
 		android:layout_width="fill_parent" 
 		android:layout_height="30dip" 
@@ -45,12 +45,14 @@
 			android:text="@string/warning"/>
 		</RelativeLayout>
 			
-			<ListView android:id="@android:id/list" 
+		<ListView 
+		android:id="@android:id/list" 
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent" 
 		android:layout_weight="1"
 		android:drawSelectorOnTop="false" />
-				
+			
+			
 			<ScrollView 
 				android:id="@+id/scrollView1" 
 				android:layout_width="match_parent" 

@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -19,6 +20,7 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 
 public class Splash extends Activity{
@@ -47,9 +49,6 @@ public class Splash extends Activity{
 	private class FindZips extends AsyncTask<Void, Void, Void> {
 		
 	private List<Flashable> fls;
-	String nightlyPath;
-	String gappsPath;
-	String packPath;
 	String local_storage_root;
 
 	@Override
@@ -81,21 +80,9 @@ public class Splash extends Activity{
 	@Override
 	protected void onPostExecute(Void result) {
 		super.onPostExecute(result);
-		for (Flashable ff: fls){
-			if (ff.getName().contains("teamhacksung"))
-				nightlyPath = ff.getPath().replace("/mnt", "");
-			else if (ff.getName().contains("dpi_cleaner"))
-				packPath = ff.getPath().replace("/mnt", "");
-			else if (ff.getName().contains("gappsv"))
-				gappsPath = ff.getPath().replace("/mnt", "");
-			}
-		Bundle bundle = new Bundle();
-		bundle.putString("nightly", nightlyPath);
-		bundle.putString("gapps", gappsPath);
-		bundle.putString("pack", packPath);
-		
+								
 		Intent openOptionChooser = new Intent ("in.deaap.genomen.core.OPTIONCHOOSER");
-		openOptionChooser.putExtras(bundle);
+		openOptionChooser.putParcelableArrayListExtra("lijst", (ArrayList<? extends Parcelable>) fls);
 		startActivity(openOptionChooser);
 		}
 	}

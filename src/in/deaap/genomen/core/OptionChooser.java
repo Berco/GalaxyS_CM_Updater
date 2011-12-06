@@ -3,20 +3,16 @@ package in.deaap.genomen.core;
 import in.deaap.genomen.assist.ShellInterface;
 import in.deaap.genomen.filehandler.FileArrayAdapter;
 import in.deaap.genomen.filehandler.Flashable;
-import in.deaap.genomen.filehandler.SearchRequest;
 
 import java.io.IOException;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
-import android.content.res.Resources;
 import android.os.Bundle;
-
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +31,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 	String nightlyPath;
 	String gappsPath;
 	String packPath;
+	List<Flashable> fls;
 				
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,17 +40,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
         initialize();
         
         writeAnotherExtendedCommand();
-        
-    /*    Resources resources = getResources();
-	*	String[] searchfor = resources.getStringArray(R.array.search_for);
-	*	String[] nothing = {"nothing"};
-	*	
-	*	SearchRequest request = new SearchRequest();
-	*	
-	*	List<Flashable> fls = request.arrangeForResult(searchfor, nothing);
-	*	FileArrayAdapter adapter = new FileArrayAdapter(OptionChooser.this,R.layout.file_view, fls);
-	*	this.setListAdapter(adapter);
-   	*/
+           	
    }
 
 	private void writeExtendedCommand() {
@@ -104,9 +91,16 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 		mCbGapps.setOnClickListener(this);
 		
 		Bundle bundle = this.getIntent().getExtras();
-		nightlyPath = bundle.getString("nightly");
-		gappsPath = bundle.getString("gapps");
-		packPath = bundle.getString("pack");
+		fls = bundle.getParcelableArrayList("lijst"); 
+		
+		for (Flashable ff: fls){
+			if (ff.getName().contains("teamhacksung"))
+				nightlyPath = ff.getPath().replace("/mnt", "");
+			else if (ff.getName().contains("dpi_cleaner"))
+				packPath = ff.getPath().replace("/mnt", "");
+			else if (ff.getName().contains("gappsv"))
+				gappsPath = ff.getPath().replace("/mnt", "");
+			}
 		}
 
 	@Override
@@ -129,19 +123,22 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 	}
 	
 	private void writeAnotherExtendedCommand() {
-		String headerlines = new String(
-				'\n' +
-				"             -----  FLASHING ROW ----- " + '\n' +
-				"             -----   HERE WE GO  ----- " + '\n' +
-				"             -----     ZATTA     ----- " + '\n'
-				);
-			if (mCbNightly.isChecked()){
-				headerlines = headerlines + '\n' + '\n' + nightlyPath;}
-			if (mCbGapps.isChecked()){
-				headerlines = headerlines + '\n' + '\n' + gappsPath;}
-			if (mCbZattaPack.isChecked()){
-				headerlines = headerlines + '\n' + '\n' + packPath;}
-		mText.setText(headerlines);
+	/*	String headerlines = new String(
+	*			'\n' +
+	*			"             -----  FLASHING ROW ----- " + '\n' +
+	*			"             -----   HERE WE GO  ----- " + '\n' +
+	*			"             -----     ZATTA     ----- " + '\n'
+	*			);
+	*		if (mCbNightly.isChecked()){
+	*			headerlines = headerlines + '\n' + '\n' + nightlyPath;}
+	*		if (mCbGapps.isChecked()){
+	*			headerlines = headerlines + '\n' + '\n' + gappsPath;}
+	*		if (mCbZattaPack.isChecked()){
+	*			headerlines = headerlines + '\n' + '\n' + packPath;}
+	*	mText.setText(headerlines);
+	*/	
+		FileArrayAdapter adapter = new FileArrayAdapter(OptionChooser.this,R.layout.file_view, fls);
+		this.setListAdapter(adapter);
 	}
 	
 	public void sure_dialog(final int sure, String text) {

@@ -39,15 +39,42 @@ public class Flashable implements Comparable<Flashable>, Parcelable {
 				throw new IllegalArgumentException();
 	}
 
+	
+	
+ 
+	// All for making them parcelable
+	public Flashable(Parcel in) {
+		readFromParcel(in);
+	}
+  
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
-
+ 
 	@Override
-	public void writeToParcel(Parcel arg0, int arg1) {
-		// TODO Auto-generated method stub
-		
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(name);
+		dest.writeLong(version);
+		dest.writeString(path);
 	}
+
+	private void readFromParcel(Parcel in) {
+ 		name = in.readString();
+		version = in.readLong();
+		path = in.readString();
+	}
+     
+    @SuppressWarnings("rawtypes")
+	public static final Parcelable.Creator CREATOR =
+    	new Parcelable.Creator() {
+            public Flashable createFromParcel(Parcel in) {
+                return new Flashable(in);
+            }
+ 
+            public Flashable[] newArray(int size) {
+                return new Flashable[size];
+            }
+        };	
+
 }
