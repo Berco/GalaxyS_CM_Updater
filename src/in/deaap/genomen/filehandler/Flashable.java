@@ -68,11 +68,13 @@ public class Flashable implements Comparable<Flashable>, Parcelable {
     @SuppressWarnings("rawtypes")
 	public static final Parcelable.Creator CREATOR =
     	new Parcelable.Creator() {
-            public Flashable createFromParcel(Parcel in) {
+            @Override
+			public Flashable createFromParcel(Parcel in) {
                 return new Flashable(in);
             }
  
-            public Flashable[] newArray(int size) {
+            @Override
+			public Flashable[] newArray(int size) {
                 return new Flashable[size];
             }
         };	

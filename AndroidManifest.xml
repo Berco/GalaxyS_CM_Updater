@@ -28,6 +28,14 @@
             </intent-filter>
         </activity>
         
+        <activity android:name="FindFilesActivity"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="in.deaap.genomen.core.FINDFILESACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
         <activity android:name="in.deaap.genomen.assist.AboutUs"
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.Dialog">

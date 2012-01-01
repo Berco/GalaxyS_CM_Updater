@@ -26,9 +26,15 @@
 		android:id="@+id/rlCheckboxes" 
 		android:paddingLeft="20dip" 
 		android:paddingRight="20dip">
-			<CheckBox android:id="@+id/cbNightly"   android:layout_alignParentTop="true"    android:layout_alignParentLeft="true"		android:layout_height="wrap_content" android:text="flash nightly" 	android:layout_width="wrap_content" 	android:checked="true"></CheckBox>
-			<CheckBox android:id="@+id/cbGapps"     android:layout_below="@id/cbNightly"    android:layout_alignParentLeft="true"		android:layout_height="wrap_content" android:text="flash Gapps" 	android:layout_width="wrap_content" 	android:checked="true"></CheckBox>
-			<CheckBox android:id="@+id/cbZattaPack" android:layout_alignParentTop="true"    android:layout_alignParentRight="true"		android:layout_height="wrap_content" android:text="flash ZattaPack" android:layout_width="wrap_content" android:checked="false"></CheckBox>
+			<CheckBox android:id="@+id/cbFactoryReset"   android:layout_alignParentTop="true"   	 android:layout_alignParentLeft="true"		android:layout_height="wrap_content" android:text="Factory Reset" 		android:layout_width="wrap_content" 	android:checked="false"></CheckBox>
+			<CheckBox android:id="@+id/cbFormatDataData" android:layout_below="@id/cbFactoryReset"   android:layout_alignParentLeft="true"		android:layout_height="wrap_content" android:text="Format /datadata" 	android:layout_width="wrap_content" 	android:checked="false"></CheckBox>
+			<Button 
+				android:id="@+id/btnClear" 
+				android:text="Clear list" 
+				android:layout_height="wrap_content" 
+				android:layout_width="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true" />
 		</RelativeLayout>
 			
 		<RelativeLayout 
@@ -50,42 +56,37 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent" 
 		android:layout_weight="1"
-		android:drawSelectorOnTop="false" />
+		android:drawSelectorOnTop="true"> 
+		</ListView>
 			
-			
-			<ScrollView 
-				android:id="@+id/scrollView1" 
-				android:layout_width="match_parent" 
-				android:layout_height="160dip"
-				android:layout_below="@+id/tvAttentionbar"
-				android:fadeScrollbars="false"  >
-				<TextView 
-				android:layout_width="match_parent" 
-				android:id="@+id/tvExtComm" 
-				android:layout_height="match_parent" 
-				android:text="Still no extendedcommand"/>
-			</ScrollView>
-			
-			<RelativeLayout 
-				android:id="@+id/rlBottombar"
-				android:layout_width="fill_parent" 
-				android:layout_height="30dip" 
-				android:background="@drawable/bg_header">
-			</RelativeLayout>
-			
+		<RelativeLayout 
+			android:id="@+id/rlBottombar"
+			android:layout_width="fill_parent" 
+			android:layout_height="30dip" 
+			android:background="@drawable/bg_header">
+		</RelativeLayout>
 						
-			<RelativeLayout 
+		<RelativeLayout 
+			android:layout_height="wrap_content" 
+			android:layout_width="match_parent" 
+			android:id="@+id/rlButtons"
+			android:paddingLeft="40dip"
+			android:paddingRight="40dip"
+			android:paddingTop="10dip">
+			<Button 
+				android:id="@+id/btnFlash" 
+				android:text="Flash" 
 				android:layout_height="wrap_content" 
-				android:layout_width="match_parent" 
-				android:id="@+id/rlButtons"
-				android:padding="10dip">
-				<Button 
-					android:id="@+id/btnFlash" 
-					android:text="Flash" 
-					android:layout_height="wrap_content" 
-					android:layout_width="100dip"
-					android:layout_centerInParent="true"  />
-			</RelativeLayout>
+				android:layout_width="100dip"
+				android:layout_alignParentLeft="true"  />
+			<Button 
+				android:id="@+id/btnAdd" 
+				android:text="Add item" 
+				android:layout_height="wrap_content" 
+				android:layout_width="100dip"
+				android:layout_alignParentRight="true" />
+		</RelativeLayout>
+
 </LinearLayout>
 
 
