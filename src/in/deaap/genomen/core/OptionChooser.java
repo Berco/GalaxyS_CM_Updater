@@ -5,15 +5,15 @@ import in.deaap.genomen.filehandler.FileArrayAdapter;
 import in.deaap.genomen.filehandler.Flashable;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +25,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class OptionChooser extends ListActivity implements View.OnClickListener{
-    /** Called when the activity is first created. */
 	
 	CheckBox mCbFactoryReset;
 	CheckBox mCbFormatDataData;
@@ -34,6 +33,8 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 	Button mClear;
 	List<Flashable> fls;
 	List<Flashable> ExCo;
+	protected CharSequence[] options = { "Set DPI to 210", "Remove Bloat", "Wipe Dalvic cache", "Fix Permissions" };
+	protected boolean[] selections =  new boolean[ options.length ];
 				
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,11 +62,8 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 		}
     
     private void writeAnotherExtendedCommand() {
-    	ExCo = new ArrayList<Flashable>();
-    	for (Flashable ff : fls)
-    		ExCo.add(new Flashable(ff.getName(), ff.getVersion(), ff.getPath()));
-    	
-    	FileArrayAdapter adapter = new FileArrayAdapter(OptionChooser.this,R.layout.file_view, ExCo);
+    	    	
+    	FileArrayAdapter adapter = new FileArrayAdapter(OptionChooser.this,R.layout.file_view, fls);
 		this.setListAdapter(adapter);
 		
 		ListView list = getListView();
@@ -73,11 +71,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Flashable tekst = ExCo.get(position);
-				Toast.makeText(OptionChooser.this, tekst.getName() + " long clicked",Toast.LENGTH_SHORT).show();
-				// Return true to consume the click event. In this case the
-				// onListItemClick listener is not called anymore.
+				int position, long id) {
 				fls.remove(position);
 				writeAnotherExtendedCommand();
 				return true;
@@ -87,7 +81,6 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
     
     private void writeExtendedCommand() {
 		try {
-		// header
 			String command = new String("echo 'ui_print(\" \");' > /sdcard/FlashPack/extendedcommand");
 			ShellInterface.runCommand(command);
 			command = "echo 'ui_print(\"  -----  FLASHING ROW ----- \");' >> /sdcard/FlashPack/extendedcommand";
@@ -99,18 +92,39 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 			command = "echo 'ui_print(\" \");' >> /sdcard/FlashPack/extendedcommand";
 			ShellInterface.runCommand(command);
 			
+			command = "echo 'run_program(\"/cache/totalscript.sh\", \"prepare_recovery\");' >> /sdcard/FlashPack/extendedcommand";
+			ShellInterface.runCommand(command);
+						
 			command = "echo 'format(\"/cache\");' >> /sdcard/FlashPack/extendedcommand";
 			ShellInterface.runCommand(command);
-			
-			for (Flashable ff: ExCo){
+									
+			for (Flashable ff: fls){
 				String path = ff.getPath().replace("/mnt", "");
 				String insert = "echo 'assert(install_zip(\""+path.trim()+"\"));' >> /sdcard/FlashPack/extendedcommand";
 				ShellInterface.runCommand(insert);
 			}
-			command = "echo 'format(\"/cache\");' >> /sdcard/FlashPack/extendedcommand";
+						
+			command = "echo 'ui_print(\"\");' >> /sdcard/FlashPack/extendedcommand";
+			ShellInterface.runCommand(command);
+			command = "echo 'ui_print(\"  -- Running GalaxyS_CM_Updater scripts -- \");' >> /sdcard/FlashPack/extendedcommand";
+			ShellInterface.runCommand(command);
+			command = "echo 'ui_print(\"\");' >> /sdcard/FlashPack/extendedcommand";
 			ShellInterface.runCommand(command);
 			
+			//  run_program("/sbin/busybox", "umount", "/system");
+			ShellInterface.runCommand("echo 'run_program(\"/sbin/busybox\", \"mount\", \"/system\");' >> /sdcard/FlashPack/extendedcommand");
+			ShellInterface.runCommand("echo 'run_program(\"/sbin/busybox\", \"chmod\", \"777\", \"/tmp/totalscript.sh\");' >> /sdcard/FlashPack/extendedcommand");
+			if (selections[0])
+			ShellInterface.runCommand("echo 'run_program(\"/tmp/totalscript.sh\", \"set_dpi\", \"210\");' >> /sdcard/FlashPack/extendedcommand");
+			if (selections[1])			
+			ShellInterface.runCommand("echo 'run_program(\"/tmp/totalscript.sh\", \"clean\");' >> /sdcard/FlashPack/extendedcommand");
+			if (selections[2])			
+			ShellInterface.runCommand("echo 'run_program(\"/tmp/totalscript.sh\", \"wipe_dalvic\");' >> /sdcard/FlashPack/extendedcommand");
+			if (selections[3])			
+			ShellInterface.runCommand("echo 'run_program(\"/tmp/totalscript.sh\", \"fix_perms\");' >> /sdcard/FlashPack/extendedcommand");
 			
+			command = "echo 'format(\"/cache\");' >> /sdcard/FlashPack/extendedcommand";
+			ShellInterface.runCommand(command);
 			
 			} catch (IOException e) {
 			e.printStackTrace();
@@ -130,8 +144,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.btnFlash:
-			if(ShellInterface.isSuAvailable())
-			sure_dialog(R.id.btnFlash, "Flash");
+			showDialog( R.id.btnFlash );
 			break;
 		case R.id.btnAdd:
 			Intent openFindFiles = new Intent ("in.deaap.genomen.core.FINDFILESACTIVITY");
@@ -152,7 +165,6 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK){
 			Bundle basket = data.getExtras();
@@ -161,39 +173,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 			writeAnotherExtendedCommand();
 		}
 	}
-			
-	public void sure_dialog(final int sure, String text) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage("Are you sure?");	
-		builder.setTitle(text);
-		builder.setPositiveButton("Yes", new OnClickListener(){
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-			switch (sure){
-			case R.id.btnFlash :
-				try {
-					writeAnotherExtendedCommand();
-					writeExtendedCommand();
-					ShellInterface.runCommand("mkdir -p /cache/recovery");
-					String move = "cp /sdcard/FlashPack/extendedcommand /cache/recovery/extendedcommand";
-					ShellInterface.runCommand(move);
-					ShellInterface.runCommand("rm /sdcard/FlashPack/extendedcommand");
-					ShellInterface.runCommand("reboot recovery");
-				} catch (Exception e) {
-					e.printStackTrace();
-				} 
-				break;
-			}
-			};});
-		
-		builder.setNegativeButton("No", new OnClickListener(){
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-			}});
-		AlertDialog alert = builder.create();
-		alert.show();
-	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(android.view.Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -218,6 +198,85 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 			break;
 		}
 		return false;
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		
+		switch (id){
+		default :
+			return
+			new AlertDialog.Builder(this)
+		    .setTitle("This is an alert box.")
+		    .setNeutralButton( "Neutral", new DialogButtonClickHandler() )
+		    .create();
+		case R.id.btnFlash:
+			return
+			new AlertDialog.Builder(this)
+        	.setTitle("Flash all this?")
+        	.setMultiChoiceItems( options, selections, new DialogMultiSelectionClickHandler() )
+        	.setPositiveButton( "Flash", new DialogButtonClickHandler() )
+        	.setNegativeButton( "Cancel", new DialogButtonClickHandler() )
+        	//.setNeutralButton( "Test Script", new DialogButtonClickHandler() )
+        	.create();
+		}
+	}
+	
+	public class DialogMultiSelectionClickHandler implements DialogInterface.OnMultiChoiceClickListener{
+		public void onClick(DialogInterface dialog, int clicked, boolean selected) {
+			Log.i( "ME", options[clicked] + " selected: " + selected );
+		}
+	}
+	
+	public class DialogButtonClickHandler implements DialogInterface.OnClickListener {
+		public void onClick( DialogInterface dialog, int clicked ){
+			switch(clicked){
+				case DialogInterface.BUTTON_POSITIVE:
+//					switch (sure){
+//						case R.id.btnFlash :
+					if(ShellInterface.isSuAvailable()){
+					try {
+						String doit = "chmod 777 /datadata/in.deaap.genomen.core/totalscript.sh";
+						ShellInterface.runCommand(doit);
+						doit = "/datadata/in.deaap.genomen.core/totalscript.sh prepare_runtime";
+						ShellInterface.runCommand(doit);
+						
+						writeExtendedCommand();
+						ShellInterface.runCommand("mkdir -p /cache/recovery");
+						String move = "cp /sdcard/FlashPack/extendedcommand /cache/recovery/extendedcommand";
+						ShellInterface.runCommand(move);
+						//ShellInterface.runCommand("rm /sdcard/FlashPack/extendedcommand");
+						//ShellInterface.runCommand("reboot recovery");
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+//						break;
+//					}
+					
+					break;
+				case DialogInterface.BUTTON_NEUTRAL:
+					if(ShellInterface.isSuAvailable()){
+						try{
+						String doit = "chmod 777 /datadata/in.deaap.genomen.core/totalscript.sh";
+						ShellInterface.runCommand(doit);
+						String move = "/datadata/in.deaap.genomen.core/totalscript.sh remount";
+						ShellInterface.runCommand(move);
+						move = "/datadata/in.deaap.genomen.core/totalscript.sh prepare_runtime";
+						ShellInterface.runCommand(move);
+						String dpi_setting = "210";
+						move = "/datadata/in.deaap.genomen.core/totalscript.sh set_dpi "+dpi_setting;
+						ShellInterface.runCommand(move);
+						
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					break;
+				case DialogInterface.BUTTON_NEGATIVE:
+					break;
+			}
+		}
 	}
 
 }

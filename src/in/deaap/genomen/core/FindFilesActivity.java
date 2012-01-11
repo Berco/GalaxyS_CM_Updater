@@ -35,7 +35,7 @@ public class FindFilesActivity extends ListActivity {
 		
 		Resources resources = getResources();
 		searchfor = resources.getStringArray(R.array.search_for);
-		String[] zip = {".zip"};
+		String[] zip = {"*.zip"};
 				
 		SearchRequest request = new SearchRequest();
 		fls = request.arrangeForExplorer(zip, searchfor);
@@ -114,7 +114,7 @@ public class FindFilesActivity extends ListActivity {
             
             SearchRequest request = new SearchRequest();
 			String[] nothing = {"nothing"};
-			String[] zip = {".zip"};
+			String[] zip = {"*.zip"};
 			
 			switch(item){
 			case 0:

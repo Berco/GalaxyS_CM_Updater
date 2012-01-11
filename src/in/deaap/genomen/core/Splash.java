@@ -1,8 +1,10 @@
 package in.deaap.genomen.core;
 
+import in.deaap.genomen.assist.ShellInterface;
 import in.deaap.genomen.filehandler.Flashable;
 import in.deaap.genomen.filehandler.SearchRequest;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +24,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.widget.Toast;
 
+@SuppressWarnings("unused")
 public class Splash extends Activity{
 
 	MediaPlayer ourSound;
@@ -30,6 +34,8 @@ public class Splash extends Activity{
 	@Override
 	protected void onCreate(Bundle ZomaarEenNaam) {
 		super.onCreate(ZomaarEenNaam);
+		// an attempt to use powermanager, not satisfying. app needs to be in /system
+		//checkPosition();
 		new FindZips().execute();
 		setContentView(R.layout.splash);
 		ourSound = MediaPlayer.create(Splash.this, R.raw.splashsound);
@@ -46,27 +52,61 @@ public class Splash extends Activity{
 		finish();
 	}
 	
+//	protected void checkPosition(){
+//		File f = new File("/system/app/in.deaap.genomen.core-1.apk");
+//		if (!f.exists()){
+//			Toast.makeText(getApplicationContext(), "'Not a system app yet, start again", Toast.LENGTH_SHORT).show();
+//			try {
+//				if(ShellInterface.isSuAvailable()){
+//				String command = "mount -o rw,remount -t yaffs2 /dev/block/mtdblock2 /system";
+//				ShellInterface.runCommand(command);
+//				command = "cp /data/app/in.deaap.genomen.core-1.apk /system/app/in.deaap.genomen.core-1.apk";
+//				ShellInterface.runCommand(command);
+//				command = "rm /data/app/in.deaap.genomen.core-1.apk";
+//				ShellInterface.runCommand(command);
+//				
+//				}
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		} else {
+//			Toast.makeText(getApplicationContext(), "Yes, we are in /sytem", Toast.LENGTH_SHORT).show();
+//		}
+//		
+//	}
+	
 	private class FindZips extends AsyncTask<Void, Void, Void> {
 		
 	private List<Flashable> fls;
 	String local_storage_root;
+	String data_storage_root;
 
 	@Override
 	protected Void doInBackground(Void... arg0) {
 				local_storage_root = "/FlashPack/";
 				local_storage_root = Environment.getExternalStorageDirectory().toString()+local_storage_root;
+				data_storage_root = "/data/in.deaap.genomen.core/";
+				data_storage_root = Environment.getDataDirectory().toString()+data_storage_root;
 				InputStream is= null;
 				OutputStream os = null;
+				
+				File f = new File(data_storage_root+"totalscript.sh");
+				if (!f.exists() || (f.exists())){
 		        try {
-		        is = getResources().getAssets().open("files/dpi_cleaner_V1g.zip");
-		        os = new FileOutputStream(local_storage_root+"dpi_cleaner_V1g.zip");
+		        is = getResources().getAssets().open("scripts/totalscript.sh");
+		        os = new FileOutputStream(data_storage_root+"totalscript.sh");
 		        IOUtils.copy(is, os);
 		        is.close();
 		        os.flush();
 		        os.close();
 		        os = null;
-		        } catch (IOException e) { }
-		
+		        //Toast.makeText(getApplicationContext(), "script geplaatst", Toast.LENGTH_SHORT).show();
+		        } catch (IOException e) {
+		        //	Toast.makeText(getApplicationContext(), "script niet geplaatst", Toast.LENGTH_SHORT).show();
+		        }
+				}
+				
 		Resources resources = getResources();
 		String[] searchfor = resources.getStringArray(R.array.search_for);
 		String[] nothing = {"nothing"};

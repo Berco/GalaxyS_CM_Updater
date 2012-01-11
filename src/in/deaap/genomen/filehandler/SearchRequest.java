@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.io.filefilter.WildcardFileFilter;
+
 import android.util.Log;
 
 
@@ -61,28 +63,18 @@ public class SearchRequest {
 
 	// helper method, geeft List<Flashable> terug	
 	private List<Flashable> findFiles(String[] searchStrings, String[] exceptStrings) {
-
-		FilenameFilter[] filter_include = new FilenameFilter[searchStrings.length];
+		
+		WildcardFileFilter[] filter_include = new WildcardFileFilter[searchStrings.length];
 		int i = 0;
 		for (final String take : searchStrings) {
-			filter_include[i] = new FilenameFilter() {
-				@Override
-				public boolean accept(File dir, String name) {
-					return name.contains(take);
-				}
-			};
+			filter_include[i] = new WildcardFileFilter(take); 
 		i++;
 		}
-		
-		FilenameFilter[] filter_exclude = new FilenameFilter[exceptStrings.length];
+
+		WildcardFileFilter[] filter_exclude = new WildcardFileFilter[exceptStrings.length];
 		i = 0;
 		for (final String leave : exceptStrings) {
-			filter_exclude[i] = new FilenameFilter() {
-				@Override
-				public boolean accept(File dir, String name) {
-					return name.contains(leave);
-				}
-			};
+			filter_exclude[i] = new WildcardFileFilter(leave); 
 		i++;
 		}
 		
@@ -120,7 +112,6 @@ public class SearchRequest {
 			for (File entry : entries) {
 				for (FilenameFilter filefilter_in : filter_include) {
 					if (filter_include == null || filefilter_in.accept(directory, entry.getName())) {
-					// origineel	
 						int t = 0;
 						for (FilenameFilter filefilter_ex : filter_exclude){
 							Log.v("SearchRequest", "checked: " + entry.getName());
@@ -133,7 +124,6 @@ public class SearchRequest {
 								}
 							}
 						}
-					//einde origineel
 					}
 				}
 				if ((recurse <= -1) || (recurse > 0 && entry.isDirectory())) {
