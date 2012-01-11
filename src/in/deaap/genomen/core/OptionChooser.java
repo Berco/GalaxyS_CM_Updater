@@ -103,12 +103,16 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 				String insert = "echo 'assert(install_zip(\""+path.trim()+"\"));' >> /sdcard/FlashPack/extendedcommand";
 				ShellInterface.runCommand(insert);
 			}
-						
-			command = "echo 'ui_print(\"\");' >> /sdcard/FlashPack/extendedcommand";
+			
+			command = "echo 'ui_print(\"  ---------------------------------------- \");' >> /sdcard/FlashPack/extendedcommand";
+			ShellInterface.runCommand(command);
+			command = "echo 'ui_print(\" \");' >> /sdcard/FlashPack/extendedcommand";
 			ShellInterface.runCommand(command);
 			command = "echo 'ui_print(\"  -- Running GalaxyS_CM_Updater scripts -- \");' >> /sdcard/FlashPack/extendedcommand";
 			ShellInterface.runCommand(command);
-			command = "echo 'ui_print(\"\");' >> /sdcard/FlashPack/extendedcommand";
+			command = "echo 'ui_print(\" \");' >> /sdcard/FlashPack/extendedcommand";
+			ShellInterface.runCommand(command);
+			command = "echo 'ui_print(\"  ---------------------------------------- \");' >> /sdcard/FlashPack/extendedcommand";
 			ShellInterface.runCommand(command);
 			
 			//  run_program("/sbin/busybox", "umount", "/system");
@@ -245,8 +249,8 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 						ShellInterface.runCommand("mkdir -p /cache/recovery");
 						String move = "cp /sdcard/FlashPack/extendedcommand /cache/recovery/extendedcommand";
 						ShellInterface.runCommand(move);
-						//ShellInterface.runCommand("rm /sdcard/FlashPack/extendedcommand");
-						//ShellInterface.runCommand("reboot recovery");
+						ShellInterface.runCommand("rm /sdcard/FlashPack/extendedcommand");
+						ShellInterface.runCommand("reboot recovery");
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
