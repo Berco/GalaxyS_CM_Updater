@@ -31,10 +31,12 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 	Button mFlash;
 	Button mAdd;
 	Button mClear;
+	Button mDPI;
 	List<Flashable> fls;
 	List<Flashable> ExCo;
 	protected CharSequence[] options = { "Set DPI to 210", "Remove Bloat", "Wipe Dalvic cache", "Fix Permissions" };
 	protected boolean[] selections =  new boolean[ options.length ];
+	String DPI = "210";
 				
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,10 +52,13 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 		mFlash = (Button) findViewById(R.id.btnFlash);
 		mAdd = (Button) findViewById(R.id.btnAdd);
 		mClear = (Button) findViewById(R.id.btnClear);
+		mDPI = (Button) findViewById(R.id.btnDPI);
 		
 		mFlash.setOnClickListener(this);
 		mAdd.setOnClickListener(this);
 		mClear.setOnClickListener(this);
+		mDPI.setOnClickListener(this);
+		
 		mCbFactoryReset.setOnClickListener(this);
 		mCbFormatDataData.setOnClickListener(this);
 		
@@ -119,7 +124,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 			ShellInterface.runCommand("echo 'run_program(\"/sbin/busybox\", \"mount\", \"/system\");' >> /sdcard/FlashPack/extendedcommand");
 			ShellInterface.runCommand("echo 'run_program(\"/sbin/busybox\", \"chmod\", \"777\", \"/tmp/totalscript.sh\");' >> /sdcard/FlashPack/extendedcommand");
 			if (selections[0])
-			ShellInterface.runCommand("echo 'run_program(\"/tmp/totalscript.sh\", \"set_dpi\", \"210\");' >> /sdcard/FlashPack/extendedcommand");
+			ShellInterface.runCommand("echo 'run_program(\"/tmp/totalscript.sh\", \"set_dpi\", \""+DPI+"\");' >> /sdcard/FlashPack/extendedcommand");
 			if (selections[1])			
 			ShellInterface.runCommand("echo 'run_program(\"/tmp/totalscript.sh\", \"clean\");' >> /sdcard/FlashPack/extendedcommand");
 			if (selections[2])			
@@ -152,12 +157,15 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 			break;
 		case R.id.btnAdd:
 			Intent openFindFiles = new Intent ("in.deaap.genomen.core.FINDFILESACTIVITY");
-			startActivityForResult(openFindFiles, 0);
+			startActivityForResult(openFindFiles, R.id.btnAdd);
 			break;
 		case R.id.btnClear:
 			fls.clear();
 			writeAnotherExtendedCommand();
 			break;
+		case R.id.btnDPI:
+			Intent openDPI = new Intent ("in.deaap.genomen.core.DPISLIDERACTIVITY");
+			startActivityForResult (openDPI, R.id.btnDPI);
 		case R.id.cbFactoryReset:
 			writeAnotherExtendedCommand();
 			break;
@@ -170,11 +178,23 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK){
+		switch (requestCode) {
+		case R.id.btnAdd:
+			if (resultCode == RESULT_OK){
 			Bundle basket = data.getExtras();
 			Flashable s = basket.getParcelable("answer");
 			fls.add(s);
 			writeAnotherExtendedCommand();
+			}
+			break;
+		case R.id.btnDPI:
+			if (resultCode == RESULT_OK){
+			Bundle basket = data.getExtras();
+			DPI = basket.getString("answer");
+			options[0] = "Set DPI to "+ DPI;
+			Toast.makeText(this, DPI, Toast.LENGTH_SHORT).show();
+			}
+			break;
 		}
 	}
 
@@ -261,20 +281,22 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 					break;
 				case DialogInterface.BUTTON_NEUTRAL:
 					if(ShellInterface.isSuAvailable()){
-						try{
-						String doit = "chmod 777 /datadata/in.deaap.genomen.core/totalscript.sh";
-						ShellInterface.runCommand(doit);
-						String move = "/datadata/in.deaap.genomen.core/totalscript.sh remount";
-						ShellInterface.runCommand(move);
-						move = "/datadata/in.deaap.genomen.core/totalscript.sh prepare_runtime";
-						ShellInterface.runCommand(move);
-						String dpi_setting = "210";
-						move = "/datadata/in.deaap.genomen.core/totalscript.sh set_dpi "+dpi_setting;
-						ShellInterface.runCommand(move);
+//						try{
+//						String doit = "chmod 777 /datadata/in.deaap.genomen.core/totalscript.sh";
+//						ShellInterface.runCommand(doit);
+//						String move = "/datadata/in.deaap.genomen.core/totalscript.sh remount";
+//						ShellInterface.runCommand(move);
+//						move = "/datadata/in.deaap.genomen.core/totalscript.sh prepare_runtime";
+//						ShellInterface.runCommand(move);
+//						String dpi_setting = "210";
+//						move = "/datadata/in.deaap.genomen.core/totalscript.sh set_dpi "+dpi_setting;
+//						ShellInterface.runCommand(move);
+//						
+//						} catch (Exception e) {
+//							e.printStackTrace();
+//						}
 						
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+						
 					}
 					break;
 				case DialogInterface.BUTTON_NEGATIVE:

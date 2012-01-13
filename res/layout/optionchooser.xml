@@ -70,8 +70,8 @@
 			android:layout_height="wrap_content" 
 			android:layout_width="match_parent" 
 			android:id="@+id/rlButtons"
-			android:paddingLeft="40dip"
-			android:paddingRight="40dip"
+			android:paddingLeft="10dip"
+			android:paddingRight="10dip"
 			android:paddingTop="10dip">
 			<Button 
 				android:id="@+id/btnFlash" 
@@ -85,6 +85,12 @@
 				android:layout_height="wrap_content" 
 				android:layout_width="100dip"
 				android:layout_alignParentRight="true" />
+			<Button 
+				android:id="@+id/btnDPI" 
+				android:text="Set DPI" 
+				android:layout_height="wrap_content" 
+				android:layout_width="100dip"
+				android:layout_centerHorizontal="true" />
 		</RelativeLayout>
 
 </LinearLayout>
