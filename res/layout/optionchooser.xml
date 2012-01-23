@@ -7,20 +7,6 @@
     android:layout_height="wrap_content">
 				
 		<RelativeLayout 
-		android:id="@+id/rlHeader"
-		android:layout_width="fill_parent" 
-		android:layout_height="30dip" 
-		android:background="@drawable/bg_header">
-		<TextView 
-			android:id="@+id/tvHeader" 
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content" 
-			android:layout_centerInParent="true"
-			style="@style/text_h1" 
-			android:text="@string/app_name"/>
-		</RelativeLayout>
-		
-		<RelativeLayout 
 		android:layout_width="match_parent" 
 		android:layout_height="wrap_content" 
 		android:id="@+id/rlCheckboxes" 

@@ -48,16 +48,19 @@ public class FileArrayAdapter extends ArrayAdapter<Flashable>{
 				if(t2!=null)
 					t2.setText(o.getPath());      //(Long.toString(o.getVersion()));
 
-				
-				if(o.getName().contains("teamhacksung"))
-					i.setImageResource(R.drawable.cyanogen);
-				else if(o.getName().contains("CM7_FuguMod"))
-					i.setImageResource(R.drawable.fugumod);
-				else if(o.getName().contains("dpi_cleaner"))
-					i.setImageResource(R.drawable.notes);
-				else if(o.getName().contains("gappsv"))
-					i.setImageResource(R.drawable.goo_inside);
-				else i.setImageResource(R.drawable.folder);
+				if(o.getVersion()>=0){
+					if(o.getName().contains("teamhacksung"))
+						i.setImageResource(R.drawable.cyanogen);
+					else if(o.getName().contains("CM7_FuguMod"))
+						i.setImageResource(R.drawable.fugumod);
+					else if(o.getName().contains("Perka"))
+						i.setImageResource(R.drawable.notes);
+					else if(o.getName().contains("gappsv"))
+						i.setImageResource(R.drawable.goo_inside);
+					else i.setImageResource(R.drawable.zip);
+				}
+				else if (o.getVersion()< 0)
+					i.setImageResource(R.drawable.folder);
 
 			}
 			return v;

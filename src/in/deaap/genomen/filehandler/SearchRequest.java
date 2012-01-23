@@ -10,9 +10,6 @@ import java.util.Vector;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 
-import android.util.Log;
-
-
 public class SearchRequest {
 	
 	private static final String DIRECTORY = "/mnt/";
@@ -44,20 +41,6 @@ public class SearchRequest {
 	//voor later gebruik als eventueel een echte zipexplorer
 	public List<Flashable> arrangeForExplorer(String[] searchfor, String[] except) {
 		fls = findFiles(searchfor, except);
-		
-		//fls = new ArrayList<Flashable>();
-		//								//List<Flashable>dirs = new ArrayList<Flashable>();
-		//								//Flashable x = new Flashable("", "", "");
-		//
-		//for (Flashable ff:AllFiles){
-		//	fls.add(new Flashable(ff.getName(), ff.getVersion(), ff.getPath()));
-		//								//if (!x.getName().equals(ff.getParent())){ 
-		//								//	dirs.add(new Flashable(ff.getParent(),"file", ff.getPath()));
-		//								//	x= new Flashable(ff.getParent(),"", "");
-		//								//}
-		//}
-		//
-		//								//Collections.sort(dirs);
 		return fls;
 	}
 
@@ -114,13 +97,13 @@ public class SearchRequest {
 					if (filter_include == null || filefilter_in.accept(directory, entry.getName())) {
 						int t = 0;
 						for (FilenameFilter filefilter_ex : filter_exclude){
-							Log.v("SearchRequest", "checked: " + entry.getName());
+							//Log.v("SearchRequest", "checked: " + entry.getName());
 							if (filter_exclude == null || !filefilter_ex.accept(directory, entry.getName())) {
 							t++	;
-								Log.v("SearchRequest", "teller=" + Integer.toString(t)+ "/" + Integer.toString(filter_exclude.length));
+								//Log.v("SearchRequest", "teller=" + Integer.toString(t)+ "/" + Integer.toString(filter_exclude.length));
 								if (t == filter_exclude.length){
 									files.add(entry);
-									Log.v("SearchRequest", "Added: " + entry.getName());
+									//Log.v("SearchRequest", "Added: " + entry.getName());
 								}
 							}
 						}

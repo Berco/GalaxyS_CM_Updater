@@ -8,5 +8,23 @@
   android:key="checkboxMusic"
   android:summary="for the splash screen">
   </CheckBoxPreference>
+      
+  <Preference android:title="Change search parameters" android:key="changeSearch"></Preference>
+  
+  <PreferenceScreen android:title="About this app">
+    <intent
+        android:action="android.intent.action.MAIN"
+        android:targetPackage="in.deaap.genomen.core"
+        android:targetClass="in.deaap.genomen.assist.AboutUs"
+        />
+</PreferenceScreen>
+  
+  <PreferenceScreen android:title="PawitP on Faramir">
+    <intent
+        android:action="android.intent.action.VIEW"
+        android:data="https://faramir.eriador.org/pawitp/"
+        />
+</PreferenceScreen>
+  
         
 </PreferenceScreen>

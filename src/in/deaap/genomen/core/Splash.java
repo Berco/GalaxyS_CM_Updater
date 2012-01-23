@@ -1,6 +1,7 @@
 package in.deaap.genomen.core;
 
 import in.deaap.genomen.assist.ShellInterface;
+
 import in.deaap.genomen.filehandler.Flashable;
 import in.deaap.genomen.filehandler.SearchRequest;
 
@@ -10,13 +11,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Resources;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -110,12 +114,35 @@ public class Splash extends Activity{
 		Resources resources = getResources();
 		String[] searchfor = resources.getStringArray(R.array.search_for);
 		String[] nothing = {"nothing"};
-		
+		addStrings(searchfor);
+		String[] searchfor2 = getStrings();
 		SearchRequest request = new SearchRequest();
 		
-		fls = request.arrangeForResult(searchfor, nothing);
+		fls = request.arrangeForResult(searchfor2, nothing);
 		return null;
 	}
+	public void addStrings(String[] searchfor) {
+        
+        SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        Set<String> mySet = new HashSet<String>();
+				
+		for (String ss:searchfor){
+			mySet.add(ss);
+			
+		}
+        String teststring = searchfor[1];
+        Editor editor = getPrefs.edit();
+        editor.putStringSet("een setje", mySet);
+        editor.commit();
+    }
+	public String[] getStrings(){
+		Set<String> mySet = new HashSet<String>();
+		SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+		mySet = getPrefs.getStringSet("een setje", mySet);
+		String[] searchfor = mySet.toArray(new String[0]);
+		return searchfor;
+	}
+
 
 	@Override
 	protected void onPostExecute(Void result) {

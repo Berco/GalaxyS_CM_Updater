@@ -34,16 +34,21 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 	Button mDPI;
 	List<Flashable> fls;
 	List<Flashable> ExCo;
+	
 	protected CharSequence[] options = { "Set DPI to 210", "Remove Bloat", "Wipe Dalvic cache", "Fix Permissions" };
 	protected boolean[] selections =  new boolean[ options.length ];
 	String DPI = "210";
+	
 				
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.optionchooser);
         initialize();
-        writeAnotherExtendedCommand();   	
+        selections[0] = true;
+        selections[1] = true;
+        writeAnotherExtendedCommand(); 
+        this.setTitle(R.string.app_name);
    }
 
     private void initialize() {
@@ -79,6 +84,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 				int position, long id) {
 				fls.remove(position);
 				writeAnotherExtendedCommand();
+				
 				return true;
 			}
 		});
@@ -120,7 +126,6 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 			command = "echo 'ui_print(\"  ---------------------------------------- \");' >> /sdcard/FlashPack/extendedcommand";
 			ShellInterface.runCommand(command);
 			
-			//  run_program("/sbin/busybox", "umount", "/system");
 			ShellInterface.runCommand("echo 'run_program(\"/sbin/busybox\", \"mount\", \"/system\");' >> /sdcard/FlashPack/extendedcommand");
 			ShellInterface.runCommand("echo 'run_program(\"/sbin/busybox\", \"chmod\", \"777\", \"/tmp/totalscript.sh\");' >> /sdcard/FlashPack/extendedcommand");
 			if (selections[0])
@@ -143,9 +148,8 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
     @Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		// Get the item that was clicked
 		Flashable o = (Flashable) this.getListAdapter().getItem(position);
-		Toast.makeText(this, "You selected: " + o.getName(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "You pressed: " + o.getName(), Toast.LENGTH_SHORT).show();
 
 	}
     
@@ -192,7 +196,6 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 			Bundle basket = data.getExtras();
 			DPI = basket.getString("answer");
 			options[0] = "Set DPI to "+ DPI;
-			Toast.makeText(this, DPI, Toast.LENGTH_SHORT).show();
 			}
 			break;
 		}
@@ -209,10 +212,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.leftAboutApp:
-			Intent i = new Intent("in.deaap.genomen.core.ABOUT");
-			startActivity(i);
-			break;
+		
 		case R.id.leftPrefs:
 			Intent p = new Intent("in.deaap.genomen.core.PREFS");
 			startActivity(p);

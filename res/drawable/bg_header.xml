@@ -6,8 +6,8 @@
 				android:endColor="@color/header_bottom" android:angle="270" />
 		</shape>
 	</item>
-	<item android:drawable="@drawable/glare" />
-	<item android:bottom="1px" android:top="1px">
+	
+	<item >
 		<shape>
 			<gradient android:startColor="@color/header_top"
 				android:endColor="@color/header_bottom" android:angle="270" />

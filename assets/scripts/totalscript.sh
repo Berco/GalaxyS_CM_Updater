@@ -42,13 +42,14 @@ clean()
 echo "  clean"
 rm /system/app/Calculator.apk
 rm /system/app/DeskClock.apk
+rm /system/app/Development.apk
+rm /system/app/DSPmanager.apk
 rm /system/app/Email.apk
 rm /system/app/Exchange.apk
 rm /system/app/FileManager-1.1.6.apk
 rm /system/app/Galaxy4.apk
 rm /system/app/Gallery2.apk
 rm /system/app/HoloSpiralWallpaper.apk
-#rm /system/app/Launcher2.apk
 rm /system/app/LiveWallpapers.apk
 rm /system/app/LiveWalpapersPicker.apk
 rm /system/app/MagicSmokeWallpapers.apk
@@ -56,6 +57,8 @@ rm /system/app/NoiseField.apk
 rm /system/app/PhaseBeam.apk
 rm /system/app/QuickSearchBox.apk
 rm /system/app/SoundRecorder.apk
+rm /system/app/SpareParts.apk
+#rm /system/app/Trebuchet.apk
 rm /system/app/VideoEditor.apk
 rm /system/app/VisualizationWallpapers.apk
 rm /system/app/VoiceDialer.apk
