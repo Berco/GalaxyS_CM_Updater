@@ -1,5 +1,6 @@
-package in.deaap.genomen.core;
+package in.deaap.genomen;
 
+import in.deaap.genomen.R;
 import android.app.Activity;
 
 import android.content.Intent;

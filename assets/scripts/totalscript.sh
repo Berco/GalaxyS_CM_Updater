@@ -4,7 +4,7 @@ echo " **  SCRIPT FOR GALAXYS_CM_UPDATER ** "
 prepare_runtime()
 {
 	echo " prepare_runtime"
-	cd /datadata/in.deaap.genomen.core
+	cd /datadata/in.deaap.genomen
 	cat totalscript.sh > /cache/totalscript.sh
 	chmod 777 /cache/totalscript.sh
 }

@@ -3,10 +3,14 @@
   xmlns:android="http://schemas.android.com/apk/res/android">
   
   <item
-  android:title="Preferences"
-  android:id="@+id/leftPrefs" />
+  android:title="Add item"
+  android:icon="@drawable/add"
+  android:id="@+id/AddItem"
+  android:showAsAction="ifRoom"/>
   <item
-  android:title="Exit"
-  android:id="@+id/leftExit" />
+  android:title="Settings"
+  android:icon="@drawable/settings"
+  android:id="@+id/leftPrefs"
+  android:showAsAction="ifRoom"/>
     
 </menu>

@@ -1,6 +1,7 @@
-package in.deaap.genomen.core;
+package in.deaap.genomen;
 
 import in.deaap.genomen.assist.ShellInterface;
+import in.deaap.genomen.R;
 
 import in.deaap.genomen.filehandler.Flashable;
 import in.deaap.genomen.filehandler.SearchRequest;
@@ -18,6 +19,7 @@ import java.util.Set;
 import org.apache.commons.io.IOUtils;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -57,16 +59,16 @@ public class Splash extends Activity{
 	}
 	
 //	protected void checkPosition(){
-//		File f = new File("/system/app/in.deaap.genomen.core-1.apk");
+//		File f = new File("/system/app/in.deaap.genomen-1.apk");
 //		if (!f.exists()){
 //			Toast.makeText(getApplicationContext(), "'Not a system app yet, start again", Toast.LENGTH_SHORT).show();
 //			try {
 //				if(ShellInterface.isSuAvailable()){
 //				String command = "mount -o rw,remount -t yaffs2 /dev/block/mtdblock2 /system";
 //				ShellInterface.runCommand(command);
-//				command = "cp /data/app/in.deaap.genomen.core-1.apk /system/app/in.deaap.genomen.core-1.apk";
+//				command = "cp /data/app/in.deaap.genomen-1.apk /system/app/in.deaap.genomen-1.apk";
 //				ShellInterface.runCommand(command);
-//				command = "rm /data/app/in.deaap.genomen.core-1.apk";
+//				command = "rm /data/app/in.deaap.genomen-1.apk";
 //				ShellInterface.runCommand(command);
 //				
 //				}
@@ -85,12 +87,24 @@ public class Splash extends Activity{
 	private List<Flashable> fls;
 	String local_storage_root;
 	String data_storage_root;
+	ProgressDialog dialog;
 
+	
+	
+	@Override
+	protected void onPreExecute() {
+		// TODO Auto-generated method stub
+		super.onPreExecute();
+		dialog = new ProgressDialog(Splash.this);
+		dialog.setTitle("One moment..");
+		dialog.setMessage("searching sdcards for zipfiles.");
+		dialog.show();
+	}
 	@Override
 	protected Void doInBackground(Void... arg0) {
 				local_storage_root = "/FlashPack/";
 				local_storage_root = Environment.getExternalStorageDirectory().toString()+local_storage_root;
-				data_storage_root = "/data/in.deaap.genomen.core/";
+				data_storage_root = "/data/in.deaap.genomen/";
 				data_storage_root = Environment.getDataDirectory().toString()+data_storage_root;
 				InputStream is= null;
 				OutputStream os = null;
@@ -111,30 +125,30 @@ public class Splash extends Activity{
 		        }
 				}
 				
-		Resources resources = getResources();
-		String[] searchfor = resources.getStringArray(R.array.search_for);
+		
+		addStrings();
+		String[] searchfor = getStrings();
 		String[] nothing = {"nothing"};
-		addStrings(searchfor);
-		String[] searchfor2 = getStrings();
 		SearchRequest request = new SearchRequest();
 		
-		fls = request.arrangeForResult(searchfor2, nothing);
+		fls = request.arrangeForResult(searchfor, nothing);
 		return null;
 	}
-	public void addStrings(String[] searchfor) {
-        
+	public void addStrings() {
+		Resources resources = getResources();
+		String[] searchfor = resources.getStringArray(R.array.search_for);
+				
         SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         Set<String> mySet = new HashSet<String>();
-				
-		for (String ss:searchfor){
-			mySet.add(ss);
-			
-		}
-        String teststring = searchfor[1];
-        Editor editor = getPrefs.edit();
-        editor.putStringSet("een setje", mySet);
-        editor.commit();
+        mySet = getPrefs.getStringSet("een setje", mySet);
+        if (mySet.isEmpty()){
+			for (String ss:searchfor) mySet.add(ss);
+	        Editor editor = getPrefs.edit();
+	        editor.putStringSet("een setje", mySet);
+	        editor.commit();
+        }
     }
+	
 	public String[] getStrings(){
 		Set<String> mySet = new HashSet<String>();
 		SharedPreferences getPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -147,8 +161,9 @@ public class Splash extends Activity{
 	@Override
 	protected void onPostExecute(Void result) {
 		super.onPostExecute(result);
+		dialog.dismiss();
 								
-		Intent openOptionChooser = new Intent ("in.deaap.genomen.core.OPTIONCHOOSER");
+		Intent openOptionChooser = new Intent ("in.deaap.genomen.OPTIONCHOOSER");
 		openOptionChooser.putParcelableArrayListExtra("lijst", (ArrayList<? extends Parcelable>) fls);
 		startActivity(openOptionChooser);
 		}

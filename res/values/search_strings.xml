@@ -3,9 +3,9 @@
 <string-array name="search_for">
 
 <item>gappsv*</item>
-<item>teamhacksung_galaxysmtd-ota-eng.BUILD*</item>
+<item>update-cm-9.*-RC*-GalaxyS-KANG-BUILD*-signed.zip</item>
 <item>PerkaMOD_v*</item>
-<item>CMSetting*.zip</item>
+
 
 </string-array>
 </resources>

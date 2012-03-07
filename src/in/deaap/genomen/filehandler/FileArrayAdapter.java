@@ -1,6 +1,6 @@
 package in.deaap.genomen.filehandler;
 
-import in.deaap.genomen.core.R;
+import in.deaap.genomen.R;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class FileArrayAdapter extends ArrayAdapter<Flashable>{
 					t2.setText(o.getPath());      //(Long.toString(o.getVersion()));
 
 				if(o.getVersion()>=0){
-					if(o.getName().contains("teamhacksung"))
+					if(o.getName().contains("update-cm"))
 						i.setImageResource(R.drawable.cyanogen);
 					else if(o.getName().contains("CM7_FuguMod"))
 						i.setImageResource(R.drawable.fugumod);

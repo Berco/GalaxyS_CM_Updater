@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"  
+    android:id="@+id/llSearch" 
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tvAddSearch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/addSearchString" />
+
+    <EditText
+        android:id="@+id/etAddSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+								
+		<RelativeLayout 
+			android:layout_height="wrap_content" 
+			android:layout_width="match_parent" 
+			android:id="@+id/rlButtonsAddSearch"
+			android:paddingLeft="30dip"
+			android:paddingRight="30dip"
+			android:paddingTop="10dip">
+			<Button 
+				android:id="@+id/btnOkayAdd" 
+				android:text="Okay" 
+				android:layout_height="wrap_content" 
+				android:layout_width="100dip"
+				android:layout_alignParentLeft="true"  />
+			<Button 
+				android:id="@+id/btnCancelAdd" 
+				android:text="Cancel" 
+				android:layout_height="wrap_content" 
+				android:layout_width="100dip"
+				android:layout_alignParentRight="true" />
+			
+		</RelativeLayout>
+
+</LinearLayout>
+
+

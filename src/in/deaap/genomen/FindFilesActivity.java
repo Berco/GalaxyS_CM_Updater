@@ -1,5 +1,6 @@
-package in.deaap.genomen.core;
+package in.deaap.genomen;
 
+import in.deaap.genomen.R;
 import in.deaap.genomen.filehandler.FileArrayAdapter;
 import in.deaap.genomen.filehandler.Flashable;
 import in.deaap.genomen.filehandler.SearchRequest;
@@ -15,8 +16,10 @@ import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 public class FindFilesActivity extends ListActivity {
 	private String startDir = "mnt";
@@ -45,7 +48,7 @@ public class FindFilesActivity extends ListActivity {
     	level = f.toString().replaceAll( "[^/]", "").length();
     	    	   	
     	this.setTitle(" Zip Explorer: "+f.getName());
-		 List<Flashable>dir = new ArrayList<Flashable>();
+		 final List<Flashable>dir = new ArrayList<Flashable>();
 		 List<Flashable>fls = new ArrayList<Flashable>();
 		 try{
 			 for(File ff: dirs)
@@ -85,8 +88,26 @@ public class FindFilesActivity extends ListActivity {
 				fill(currentDir);
 		}else{
 				 adapter = new FileArrayAdapter(FindFilesActivity.this,R.layout.file_view,dir);
-				 this.setListAdapter(adapter);}
+				 this.setListAdapter(adapter);
+				 ListView list = getListView();
+				 list.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+						@Override
+						public boolean onItemLongClick(AdapterView<?> parent, View view,
+							int position, long id) {
+							String lastClickedName = dir.get(position).getName();
+							startAddnEdit(lastClickedName);
+							return true;
+						}
+					});
+		}
     }
+    
+    public void startAddnEdit(String lastClickedName){
+		Intent openAddnEdit = new Intent ("in.deaap.genomen.assist.ADDSEARCHACTIVITY");
+		openAddnEdit.putExtra("string", lastClickedName);
+		startActivity(openAddnEdit);
+	}
  
     
     // Click Listener
@@ -147,12 +168,10 @@ public class FindFilesActivity extends ListActivity {
 		switch (item.getItemId()) {
 		
 		case R.id.leftPrefs:
-			Intent p = new Intent("in.deaap.genomen.core.PREFS");
+			Intent p = new Intent("in.deaap.genomen.PREFS");
 			startActivity(p);
 			break;
-		case R.id.leftExit:
-			finish();
-			break;
+		
 		}
 		return false;
 	}

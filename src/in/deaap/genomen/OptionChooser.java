@@ -1,6 +1,7 @@
-package in.deaap.genomen.core;
+package in.deaap.genomen;
 
 import in.deaap.genomen.assist.ShellInterface;
+import in.deaap.genomen.R;
 import in.deaap.genomen.filehandler.FileArrayAdapter;
 import in.deaap.genomen.filehandler.Flashable;
 
@@ -44,11 +45,12 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.optionchooser);
+        this.setTitle(R.string.app_name);
         initialize();
         selections[0] = true;
         selections[1] = true;
         writeAnotherExtendedCommand(); 
-        this.setTitle(R.string.app_name);
+        
    }
 
     private void initialize() {
@@ -160,7 +162,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 			showDialog( R.id.btnFlash );
 			break;
 		case R.id.btnAdd:
-			Intent openFindFiles = new Intent ("in.deaap.genomen.core.FINDFILESACTIVITY");
+			Intent openFindFiles = new Intent ("in.deaap.genomen.FINDFILESACTIVITY");
 			startActivityForResult(openFindFiles, R.id.btnAdd);
 			break;
 		case R.id.btnClear:
@@ -168,7 +170,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 			writeAnotherExtendedCommand();
 			break;
 		case R.id.btnDPI:
-			Intent openDPI = new Intent ("in.deaap.genomen.core.DPISLIDERACTIVITY");
+			Intent openDPI = new Intent ("in.deaap.genomen.DPISLIDERACTIVITY");
 			startActivityForResult (openDPI, R.id.btnDPI);
 		case R.id.cbFactoryReset:
 			writeAnotherExtendedCommand();
@@ -214,11 +216,12 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 		switch (item.getItemId()) {
 		
 		case R.id.leftPrefs:
-			Intent p = new Intent("in.deaap.genomen.core.PREFS");
+			Intent p = new Intent("in.deaap.genomen.PREFS");
 			startActivity(p);
 			break;
-		case R.id.leftExit:
-			finish();
+		case R.id.AddItem:
+			Intent openFindFiles = new Intent ("in.deaap.genomen.FINDFILESACTIVITY");
+			startActivityForResult(openFindFiles, R.id.btnAdd);
 			break;
 		}
 		return false;
@@ -260,9 +263,9 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 //						case R.id.btnFlash :
 					if(ShellInterface.isSuAvailable()){
 					try {
-						String doit = "chmod 777 /datadata/in.deaap.genomen.core/totalscript.sh";
+						String doit = "chmod 777 /datadata/in.deaap.genomen/totalscript.sh";
 						ShellInterface.runCommand(doit);
-						doit = "/datadata/in.deaap.genomen.core/totalscript.sh prepare_runtime";
+						doit = "/datadata/in.deaap.genomen/totalscript.sh prepare_runtime";
 						ShellInterface.runCommand(doit);
 						
 						writeExtendedCommand();
@@ -282,14 +285,14 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 				case DialogInterface.BUTTON_NEUTRAL:
 					if(ShellInterface.isSuAvailable()){
 //						try{
-//						String doit = "chmod 777 /datadata/in.deaap.genomen.core/totalscript.sh";
+//						String doit = "chmod 777 /datadata/in.deaap.genomen/totalscript.sh";
 //						ShellInterface.runCommand(doit);
-//						String move = "/datadata/in.deaap.genomen.core/totalscript.sh remount";
+//						String move = "/datadata/in.deaap.genomen/totalscript.sh remount";
 //						ShellInterface.runCommand(move);
-//						move = "/datadata/in.deaap.genomen.core/totalscript.sh prepare_runtime";
+//						move = "/datadata/in.deaap.genomen/totalscript.sh prepare_runtime";
 //						ShellInterface.runCommand(move);
 //						String dpi_setting = "210";
-//						move = "/datadata/in.deaap.genomen.core/totalscript.sh set_dpi "+dpi_setting;
+//						move = "/datadata/in.deaap.genomen/totalscript.sh set_dpi "+dpi_setting;
 //						ShellInterface.runCommand(move);
 //						
 //						} catch (Exception e) {

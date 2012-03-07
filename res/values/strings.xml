@@ -3,4 +3,6 @@
     <string name="hello">Hello World, OptionChooser!</string>
     <string name="app_name">Galaxy CM updater</string>
     <string name="warning">Check your files and paths!</string>
+    <string name="search_lines">Adjust your search patterns</string>
+    <string name="addSearchString">Your custom search pattern:</string>
 </resources>

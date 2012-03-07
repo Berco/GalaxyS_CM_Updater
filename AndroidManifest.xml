@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="in.deaap.genomen.core"
+      package="in.deaap.genomen"
       android:versionCode="1"
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="15" />
@@ -23,7 +23,7 @@
                   android:label="@string/app_name"
             		>
             <intent-filter>
-                <action android:name="in.deaap.genomen.core.OPTIONCHOOSER" />
+                <action android:name="in.deaap.genomen.OPTIONCHOOSER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -32,7 +32,7 @@
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
             <intent-filter>
-                <action android:name="in.deaap.genomen.core.DPISLIDERACTIVITY" />
+                <action android:name="in.deaap.genomen.DPISLIDERACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -41,24 +41,41 @@
                   android:label="@string/app_name"
                   android:icon="@drawable/zip">
             <intent-filter>
-                <action android:name="in.deaap.genomen.core.FINDFILESACTIVITY" />
+                <action android:name="in.deaap.genomen.FINDFILESACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         
         <activity android:name="in.deaap.genomen.assist.AboutUs"
                   android:label="@string/app_name"
-                  android:theme="@android:style/Theme.Dialog">
+                  android:theme="@android:style/Theme.Holo.Dialog">
             <intent-filter>
                 <action android:name="in.deaap.genomen.assist.ABOUTUS" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         
-        <activity android:name="in.deaap.genomen.assist.Prefs"
+        <activity android:name="in.deaap.genomen.assist.CustomSearchActivity"
                   android:label="@string/app_name">
             <intent-filter>
-                <action android:name="in.deaap.genomen.core.PREFS" />
+                <action android:name="in.deaap.genomen.assist.CUSTOMSEARCHACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name="in.deaap.genomen.assist.AddSearchActivity"
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.Holo.Dialog.NoActionBar">
+            <intent-filter>
+                <action android:name="in.deaap.genomen.assist.ADDSEARCHACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity android:name="in.deaap.genomen.assist.Prefs" 
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="in.deaap.genomen.PREFS" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
