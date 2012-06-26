@@ -40,8 +40,6 @@ public class Splash extends Activity{
 	@Override
 	protected void onCreate(Bundle ZomaarEenNaam) {
 		super.onCreate(ZomaarEenNaam);
-		// an attempt to use powermanager, not satisfying. app needs to be in /system
-		//checkPosition();
 		new FindZips().execute();
 		setContentView(R.layout.splash);
 		ourSound = MediaPlayer.create(Splash.this, R.raw.splashsound);
@@ -58,29 +56,7 @@ public class Splash extends Activity{
 		finish();
 	}
 	
-//	protected void checkPosition(){
-//		File f = new File("/system/app/in.deaap.genomen-1.apk");
-//		if (!f.exists()){
-//			Toast.makeText(getApplicationContext(), "'Not a system app yet, start again", Toast.LENGTH_SHORT).show();
-//			try {
-//				if(ShellInterface.isSuAvailable()){
-//				String command = "mount -o rw,remount -t yaffs2 /dev/block/mtdblock2 /system";
-//				ShellInterface.runCommand(command);
-//				command = "cp /data/app/in.deaap.genomen-1.apk /system/app/in.deaap.genomen-1.apk";
-//				ShellInterface.runCommand(command);
-//				command = "rm /data/app/in.deaap.genomen-1.apk";
-//				ShellInterface.runCommand(command);
-//				
-//				}
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		} else {
-//			Toast.makeText(getApplicationContext(), "Yes, we are in /sytem", Toast.LENGTH_SHORT).show();
-//		}
-//		
-//	}
+
 	
 	private class FindZips extends AsyncTask<Void, Void, Void> {
 		

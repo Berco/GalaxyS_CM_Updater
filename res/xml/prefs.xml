@@ -25,10 +25,17 @@
         />
 </PreferenceScreen>
   
-  <PreferenceScreen android:title="PawitP on Faramir">
+  <PreferenceScreen android:title="Get CyanogenMod">
     <intent
         android:action="android.intent.action.VIEW"
-        android:data="https://faramir.eriador.org/pawitp/"
+        android:data="http://get.cm/?device=galaxysmtd"
+        />
+</PreferenceScreen>
+
+  <PreferenceScreen android:title="Get GAPPS">
+    <intent
+        android:action="android.intent.action.VIEW"
+        android:data="http://goo.im/gapps"
         />
 </PreferenceScreen>
   

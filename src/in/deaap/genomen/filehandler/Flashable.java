@@ -2,7 +2,6 @@ package in.deaap.genomen.filehandler;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 public class Flashable implements Comparable<Flashable>, Parcelable {
 	private String name;
@@ -31,7 +30,7 @@ public class Flashable implements Comparable<Flashable>, Parcelable {
 									
 					//return Long.toString(this.version).compareTo(Long.toString(o.version));
 				}else{
-					Log.v("flashable", "compared" + this.name.toLowerCase().compareTo(o.getName().toLowerCase()));
+					//Log.v("flashable", "compared" + this.name.toLowerCase().compareTo(o.getName().toLowerCase()));
 					return this.name.toLowerCase().compareTo(o.getName().toLowerCase());
 				}
 			}

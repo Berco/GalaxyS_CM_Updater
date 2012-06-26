@@ -39,7 +39,10 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 	protected CharSequence[] options = { "Set DPI to 210", "Remove Bloat", "Wipe Dalvic cache", "Fix Permissions" };
 	protected boolean[] selections =  new boolean[ options.length ];
 	String DPI = "210";
-	
+	String brand;
+	String data_location;
+	String sdcard_location;
+	String external_location;
 				
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,8 +50,8 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
         setContentView(R.layout.optionchooser);
         this.setTitle(R.string.app_name);
         initialize();
-        selections[0] = true;
-        selections[1] = true;
+        //selections[0] = true;
+        //selections[1] = true;
         writeAnotherExtendedCommand(); 
         
    }
@@ -71,9 +74,32 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 		
 		Bundle bundle = this.getIntent().getExtras();
 		fls = bundle.getParcelableArrayList("lijst");
+		getDeviceId();
 		}
     
-    private void writeAnotherExtendedCommand() {
+    private void getDeviceId() {
+		// TODO Auto-generated method stub
+    	// Acer A500
+    	// samsung GT-I9000
+    	brand = android.os.Build.MANUFACTURER.toLowerCase().trim();
+    	if (brand.equals("acer")){
+    		Toast.makeText(this, "Brand: Acer", Toast.LENGTH_SHORT).show();
+    		data_location = "/data/data/";
+    		sdcard_location = "/data/media/";
+    		external_location = "/sdcard/";
+    	}else if(brand.equals("samsung")){
+    		Toast.makeText(this, "Brand: Samsung", Toast.LENGTH_SHORT).show();
+    		data_location = "/datadata/";
+    		sdcard_location = "/sdcard/";
+    		external_location = "/emmc/";
+    	}else{
+    		Toast.makeText(this, "Whatever this device is, I don't know." + brand, Toast.LENGTH_SHORT).show();
+    		finish();
+    	}
+    	 
+	}
+
+	private void writeAnotherExtendedCommand() {
     	    	
     	FileArrayAdapter adapter = new FileArrayAdapter(OptionChooser.this,R.layout.file_view, fls);
 		this.setListAdapter(adapter);
@@ -85,8 +111,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 				int position, long id) {
 				fls.remove(position);
-				writeAnotherExtendedCommand();
-				
+				writeAnotherExtendedCommand();	
 				return true;
 			}
 		});
@@ -94,7 +119,15 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
     
     private void writeExtendedCommand() {
 		try {
-			String command = new String("echo 'ui_print(\" \");' > /sdcard/FlashPack/extendedcommand");
+			String command  = new String("mkdir -p /mnt/sdcard/FlashPack");
+			ShellInterface.runCommand(command);
+			
+			ShellInterface.runCommand("mkdir -p /cache/recovery");
+			ShellInterface.runCommand("chmod 777 /cache/recovery");
+			command = "echo 'ui_print(\" \");' > /cache/recovery/extendedcommand";
+			ShellInterface.runCommand(command);
+			
+			command = "echo 'ui_print(\" \");' > /sdcard/FlashPack/extendedcommand";
 			ShellInterface.runCommand(command);
 			command = "echo 'ui_print(\"  -----  FLASHING ROW ----- \");' >> /sdcard/FlashPack/extendedcommand";
 			ShellInterface.runCommand(command);
@@ -104,7 +137,9 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 			ShellInterface.runCommand(command);
 			command = "echo 'ui_print(\" \");' >> /sdcard/FlashPack/extendedcommand";
 			ShellInterface.runCommand(command);
-			
+
+			ShellInterface.runCommand("echo 'run_program(\"/sbin/busybox\", \"mount\", \"/system\");' >> /sdcard/FlashPack/extendedcommand");
+			ShellInterface.runCommand("echo 'run_program(\"/sbin/busybox\", \"chmod\", \"777\", \"/cache/totalscript.sh\");' >> /sdcard/FlashPack/extendedcommand");
 			command = "echo 'run_program(\"/cache/totalscript.sh\", \"prepare_recovery\");' >> /sdcard/FlashPack/extendedcommand";
 			ShellInterface.runCommand(command);
 						
@@ -113,6 +148,15 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 									
 			for (Flashable ff: fls){
 				String path = ff.getPath().replace("/mnt", "");
+				// nu: /sdcard/etc of /emmc/etc voor samsung
+				// nu: /sdcard/etc of /external_sd voor acer
+				//data_location = "/data/data/";
+	    		//sdcard_location = "/data/media/";
+	    		//external_location = "/sdcard/";
+				if (brand.equals("acer")){
+					path = path.replace("/sdcard/", sdcard_location);
+					path = path.replace("/external_sd/", external_location);
+				}
 				String insert = "echo 'assert(install_zip(\""+path.trim()+"\"));' >> /sdcard/FlashPack/extendedcommand";
 				ShellInterface.runCommand(insert);
 			}
@@ -229,7 +273,6 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		
 		switch (id){
 		default :
 			return
@@ -244,8 +287,7 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
         	.setMultiChoiceItems( options, selections, new DialogMultiSelectionClickHandler() )
         	.setPositiveButton( "Flash", new DialogButtonClickHandler() )
         	.setNegativeButton( "Cancel", new DialogButtonClickHandler() )
-        	//.setNeutralButton( "Test Script", new DialogButtonClickHandler() )
-        	.create();
+           	.create();
 		}
 	}
 	
@@ -259,47 +301,22 @@ public class OptionChooser extends ListActivity implements View.OnClickListener{
 		public void onClick( DialogInterface dialog, int clicked ){
 			switch(clicked){
 				case DialogInterface.BUTTON_POSITIVE:
-//					switch (sure){
-//						case R.id.btnFlash :
 					if(ShellInterface.isSuAvailable()){
 					try {
-						String doit = "chmod 777 /datadata/in.deaap.genomen/totalscript.sh";
+						String doit = "chmod 777 "+ data_location + "in.deaap.genomen/totalscript.sh";
 						ShellInterface.runCommand(doit);
-						doit = "/datadata/in.deaap.genomen/totalscript.sh prepare_runtime";
+						doit = data_location + "in.deaap.genomen/totalscript.sh prepare_runtime"+brand;
 						ShellInterface.runCommand(doit);
-						
 						writeExtendedCommand();
 						ShellInterface.runCommand("mkdir -p /cache/recovery");
+						ShellInterface.runCommand("chmod 777 /cache/recovery");
 						String move = "cp /sdcard/FlashPack/extendedcommand /cache/recovery/extendedcommand";
 						ShellInterface.runCommand(move);
 						ShellInterface.runCommand("rm /sdcard/FlashPack/extendedcommand");
 						ShellInterface.runCommand("reboot recovery");
 						} catch (Exception e) {
 							e.printStackTrace();
-						}
 					}
-//						break;
-//					}
-					
-					break;
-				case DialogInterface.BUTTON_NEUTRAL:
-					if(ShellInterface.isSuAvailable()){
-//						try{
-//						String doit = "chmod 777 /datadata/in.deaap.genomen/totalscript.sh";
-//						ShellInterface.runCommand(doit);
-//						String move = "/datadata/in.deaap.genomen/totalscript.sh remount";
-//						ShellInterface.runCommand(move);
-//						move = "/datadata/in.deaap.genomen/totalscript.sh prepare_runtime";
-//						ShellInterface.runCommand(move);
-//						String dpi_setting = "210";
-//						move = "/datadata/in.deaap.genomen/totalscript.sh set_dpi "+dpi_setting;
-//						ShellInterface.runCommand(move);
-//						
-//						} catch (Exception e) {
-//							e.printStackTrace();
-//						}
-						
-						
 					}
 					break;
 				case DialogInterface.BUTTON_NEGATIVE:

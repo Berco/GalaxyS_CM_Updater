@@ -1,10 +1,18 @@
 #!/system/bin/sh
-# script for GalaxyS_CM_Updater
-echo " **  SCRIPT FOR GALAXYS_CM_UPDATER ** "
-prepare_runtime()
+# script for Galaxiconia
+echo " **  SCRIPT FOR Galaxiconia ** "
+prepare_runtime_samsung()
 {
-	echo " prepare_runtime"
+	echo " prepare_runtime samsung"
 	cd /datadata/in.deaap.genomen
+	cat totalscript.sh > /cache/totalscript.sh
+	chmod 777 /cache/totalscript.sh
+}
+
+prepare_runtime_acer()
+{
+	echo " prepare_runtime acer"
+	cd /data/data/in.deaap.genomen
 	cat totalscript.sh > /cache/totalscript.sh
 	chmod 777 /cache/totalscript.sh
 }
@@ -260,7 +268,8 @@ do
 	clean) clean;;
 	wipe_dalvic) wipe_dalvic;;
 	fix_perms) fix_perms;;
-	prepare_runtime) prepare_runtime;;
+	prepare_runtimesamsung) prepare_runtime_samsung;;
+	prepare_runtimeacer) prepare_runtime_acer;;
 	prepare_recovery) prepare_recovery;;
   esac
 done
